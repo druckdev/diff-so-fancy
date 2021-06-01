@@ -1012,16 +1012,16 @@ sub get_terminal_width {
 		$width = $ruler_width;
 	# Otherwise we check the terminal width using tput
 	} else {
-		my $tput = `tput cols`;
+		my @size = split(' ', `stty size`);
 
-		if ($tput) {
-			$width = int($tput);
+		if (@size) {
+			$width = int($size[1]);
 
 			if (is_windows()) {
 				$width--;
 			}
 		} else {
-			print color('orange') . "Warning: `tput cols` did not return numeric input" . color('reset') . "\n";
+			print color('orange') . "Warning: `stty size` did not return numeric input" . color('reset') . "\n";
 			$width = 80;
 		}
 	}
